@@ -5,6 +5,8 @@
 ## Tasks
                              filename   : line
     -------------------------------------------
-    1. Check for undefined  (main.js    : 8   )
-    2. Input x here somehow (main.js    : 11  )
-    3. Add styles           (styles.css : 5   )
+    1. Input x here somehow (main.js    : 11  )
+    2. Add styles           (styles.css : 5   )
+    3. draw the graph 
+    4.fuck some hoes !important 
+
