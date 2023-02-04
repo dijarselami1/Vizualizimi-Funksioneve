@@ -89,7 +89,8 @@ function showPoints()
 
   for (const v of graphPoints) {
     console.log(v.i + ", " + v.result_Y);
-    ctx.fillRect(v.i*axisStep_X +clientWidth/2 ,-v.result_Y * axisStep_Y + clientHeight/2 ,2,2);  
+
+    ctx.fillRect(v.i*axisStep_X +clientWidth/2 -1 ,-v.result_Y * axisStep_Y + clientHeight/2 -1 ,2,2);  
   }
 
 }
