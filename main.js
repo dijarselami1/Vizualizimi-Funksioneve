@@ -13,10 +13,10 @@ canvas.width  = clientWidth;
 canvas.height = clientHeight;
 
 
-let min_X=-20;
-let max_X=20;
-let min_Y=-10;
-let max_Y=10;
+let min_X=-10;
+let max_X=10;
+let min_Y=-8;
+let max_Y=8;
 
 let negativeClientAxis__X = -clientWidth/2;
 let positiveClientAxis__X =  clientWidth/2;
@@ -40,41 +40,46 @@ ctx.stroke();
 // points in x axis
 for(let i = 0; i <= clientWidth; i += axisStep_X ){
 
-    if( i == clientWidth / 2){
+  console.log(i + " client widht / 2 " + clientWidth/2)
 
-      continue;
+  if( Math.round(i) == Math.round(clientWidth/2)){
 
-    }
+    continue;
 
-  ctx.fillRect(i,clientHeight/2, 2,5 );
+   }
+
+  ctx.fillRect(i-1,clientHeight/2 -4.5, 2,8 );
 
 }
 
 // points in y axis
 for(let i = 0 ; i <= clientHeight ; i+= axisStep_Y ){
 
-  if( i == clientHeight / 2 ){
-
+  if( Math.round(i) == Math.round(clientHeight / 2) ){
+    
     continue;
 
   }
 
-ctx.fillRect(clientWidth/2,i, 5,2 );
+ctx.fillRect(clientWidth/2 -4 , i-1 , 8,2 );
 
 }
 
-console.log("clientwidht: " + clientWidth); 
+console.log("clientwidht: " + clientWidth + " axis step: " + axisStep_X); 
+
 
 
 let steps= 0.0003;
 
 let graphPoints=[];
 
+// let t1= Date.now();
+
 drawBtn.addEventListener('click', () => {
 
   let equation = equationInput.value 
 
-  let t1= Date.now();
+
 
   if(!equation || !equation.includes("x")  ){
 
@@ -100,8 +105,7 @@ drawBtn.addEventListener('click', () => {
 
   showPoints();
 
-  let t2=Date.now();
-  console.log("time it took: ", t2-t1);
+
 
 })
 
@@ -125,10 +129,13 @@ function showPoints()
   ctx.moveTo((temp_X)*axisStep_X + clientWidth/2 ,-(temp_Y) * axisStep_Y + clientHeight/2 );
   ctx.lineTo(v.i*axisStep_X + clientWidth/2 ,-v.result_Y * axisStep_Y + clientHeight/2 );
   ctx.stroke();
-
+  
   temp_X = v.i;
   temp_Y = v.result_Y;
 
+  
   }
-
+  graphPoints.length=0;
+  // let t2=Date.now();
+  // console.log("time it took: ", t2-t1);
 }
