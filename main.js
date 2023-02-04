@@ -13,8 +13,8 @@ canvas.width  = clientWidth;
 canvas.height = clientHeight;
 
 
-let min_X=-20;
-let max_X=20;
+let min_X=-10;
+let max_X=10;
 let min_Y=-5;
 let max_Y=5;
 
