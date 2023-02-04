@@ -6,6 +6,7 @@ const FACTOR     = 200;
 // HTML elements
 const equationInput = document.getElementById('equation')
 const drawBtn       = document.getElementById('drawBtn')
+const clearBtn      = document.getElementById('clearBtn')
 const outputDiv     = document.getElementById('output')
 const canvas        = document.getElementById('canvas')
 
@@ -14,6 +15,7 @@ const ctx = canvas.getContext('2d')
 const m   = math.create(math.all)
 let minX, minY, maxX, maxY, clientWidth, clientHeight
 let points = []
+let t1, t2
 
 const calculateCanvasSize = () => {
   clientWidth  = window.innerWidth;
@@ -42,11 +44,18 @@ const drawAxis = (ctx) => {
   ctx.stroke();
 }
 
+const drawLines = () => {
+  throw Error("not implemented")
+}
+
+t1 = Date.now()
 const showPoints = () => {
   for (const p of points) {
-    ctx.fillRect(p.x + clientWidth/2 - POINT_SIZE, -p.y + clientHeight/2 - POINT_SIZE, POINT_SIZE, POINT_SIZE);  
+    ctx.fillRect(p.x + clientWidth/2 - POINT_SIZE/2, -p.y + clientHeight/2 - POINT_SIZE/2, POINT_SIZE, POINT_SIZE);  
   }
 }
+t2 = Date.now()
+console.log('show points time: ', t2-t1)
 
 const resizeCanvas = () => {
   calculateCanvasSize()
@@ -55,14 +64,21 @@ const resizeCanvas = () => {
 }
 
 resizeCanvas()
+
 window.addEventListener("resize", () => {
   resizeCanvas()
+})
+
+clearBtn.addEventListener('click', () => {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+  calculateCanvasSize()
+  drawAxis(ctx)
 })
 
 drawBtn.addEventListener('click', () => {
   let equation = equationInput.value 
 
-  for (let x = minX-1 ; x <= maxX-1; x+=STEP_SIZE)
+  for (let x = minX; x <= maxX; x += STEP_SIZE)
   {
     if(!equation || !equation.includes("x")) return
     
