@@ -12,12 +12,19 @@ const clientHeight = window.innerHeight;
 canvas.width  = clientWidth;
 canvas.height = clientHeight;
 
+
 let min_X=-20;
 let max_X=20;
 let min_Y=-5;
 let max_Y=5;
 
-let axis_Zero;
+let negativeClientAxis__X = -clientWidth/2;
+let positiveClientAxis__X =  clientWidth/2;
+let negativeClientAxis__Y = -clientHeight/2; 
+let positiveClientAxis__Y =  clientHeight/2;
+
+let axisStep_X = positiveClientAxis__X/max_X;
+let axisStep_Y = positiveClientAxis__Y/max_Y;
 
 // X axis
 ctx.beginPath();
@@ -30,14 +37,33 @@ ctx.moveTo(clientWidth/2,0);
 ctx.lineTo(clientWidth/2,clientHeight );
 ctx.stroke();
 
-let steps= 0.0003;
+// points in x axis
+for(let i =0; i<=clientWidth; i+=axisStep_X ){
+    if(i== clientWidth/2){
+      continue;
+    }
+  ctx.fillRect(i,clientHeight/2, 2,5 );
+}
+
+// points in y axis
+for(let i =0; i<=clientHeight; i+=axisStep_Y ){
+  if(i== clientHeight/2){
+    continue;
+  }
+ctx.fillRect(clientWidth/2,i, 5,2 );
+}
+
+console.log("clientwidht: " + clientWidth); 
+
+
+let steps= 0.03;
 
 let graphPoints=[];
 
 drawBtn.addEventListener('click', () => {
   let equation = equationInput.value 
 
-  for(let i = min_X-1 ; i<= max_X-1; i+=1)
+  for(let i = min_X ; i<= max_X; i+=steps)
   {
     
     if(!equation || !equation.includes("x")  ){
@@ -51,7 +77,7 @@ drawBtn.addEventListener('click', () => {
       x: i, 
     }
 
-    let result_Y = m.evaluate(equation, scope)
+    let result_Y = m.evaluate(equation, scope);
     graphPoints.push({i,result_Y});
     
   }
@@ -63,7 +89,7 @@ function showPoints()
 
   for (const v of graphPoints) {
     console.log(v.i + ", " + v.result_Y);
-    ctx.fillRect(v.i +clientWidth/2 ,-v.result_Y + clientHeight/2 ,2,2);  
+    ctx.fillRect(v.i*axisStep_X +clientWidth/2 ,-v.result_Y * axisStep_Y + clientHeight/2 ,2,2);  
   }
 
 }
