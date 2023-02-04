@@ -60,6 +60,8 @@ let steps= 0.03;
 
 let graphPoints=[];
 
+let t1= new Date();
+
 drawBtn.addEventListener('click', () => {
   let equation = equationInput.value 
 
@@ -81,14 +83,19 @@ drawBtn.addEventListener('click', () => {
     graphPoints.push({i,result_Y});
     
   }
+
   showPoints();
+  let t2= new Date()
+  console.log("time it took: " + t1-t2);
 })
+
+
+
 
 function showPoints()
 {
 
   for (const v of graphPoints) {
-    console.log(v.i + ", " + v.result_Y);
 
     ctx.fillRect(v.i*axisStep_X +clientWidth/2 -1 ,-v.result_Y * axisStep_Y + clientHeight/2 -1 ,2,2);  
   }
