@@ -13,10 +13,10 @@ canvas.width  = clientWidth;
 canvas.height = clientHeight;
 
 
-let min_X=-10;
-let max_X=10;
-let min_Y=-5;
-let max_Y=5;
+let min_X=-20;
+let max_X=20;
+let min_Y=-10;
+let max_Y=10;
 
 let negativeClientAxis__X = -clientWidth/2;
 let positiveClientAxis__X =  clientWidth/2;
@@ -38,66 +38,97 @@ ctx.lineTo(clientWidth/2,clientHeight );
 ctx.stroke();
 
 // points in x axis
-for(let i =0; i<=clientWidth; i+=axisStep_X ){
-    if(i== clientWidth/2){
+for(let i = 0; i <= clientWidth; i += axisStep_X ){
+
+    if( i == clientWidth / 2){
+
       continue;
+
     }
+
   ctx.fillRect(i,clientHeight/2, 2,5 );
+
 }
 
 // points in y axis
-for(let i =0; i<=clientHeight; i+=axisStep_Y ){
-  if(i== clientHeight/2){
+for(let i = 0 ; i <= clientHeight ; i+= axisStep_Y ){
+
+  if( i == clientHeight / 2 ){
+
     continue;
+
   }
+
 ctx.fillRect(clientWidth/2,i, 5,2 );
+
 }
 
 console.log("clientwidht: " + clientWidth); 
 
 
-let steps= 0.03;
+let steps= 0.0003;
 
 let graphPoints=[];
 
-let t1= new Date();
-
 drawBtn.addEventListener('click', () => {
+
   let equation = equationInput.value 
 
+  let t1= Date.now();
+
+  if(!equation || !equation.includes("x")  ){
+
+    console.log("value is not valid");
+
+    return;
+  }
+  
   for(let i = min_X ; i<= max_X; i+=steps)
   {
     
-    if(!equation || !equation.includes("x")  ){
-
-      console.log("value is not valid");
-
-      return;
-    }
+    
     
     let scope = {
       x: i, 
     }
 
     let result_Y = m.evaluate(equation, scope);
+
     graphPoints.push({i,result_Y});
     
   }
 
   showPoints();
-  let t2= new Date()
-  console.log("time it took: " + t1-t2);
+
+  let t2=Date.now();
+  console.log("time it took: ", t2-t1);
+
 })
-
-
-
 
 function showPoints()
 {
 
+  let temp_X = min_X;
+
+  let scope = {
+    x:min_X,
+  }
+
+  let equation = equationInput.value;
+
+  let temp_Y = m.evaluate(equation, scope) ;
+
   for (const v of graphPoints) {
 
-    ctx.fillRect(v.i*axisStep_X +clientWidth/2 -1 ,-v.result_Y * axisStep_Y + clientHeight/2 -1 ,2,2);  
+  //  ctx.fillRect(v.i*axisStep_X +clientWidth/2 -1 ,-v.result_Y * axisStep_Y + clientHeight/2 -1 ,2,2);  
+  ctx.beginPath();
+  ctx.moveTo((temp_X)*axisStep_X + clientWidth/2 ,-(temp_Y) * axisStep_Y + clientHeight/2 );
+  ctx.lineTo(v.i*axisStep_X + clientWidth/2 ,-v.result_Y * axisStep_Y + clientHeight/2 );
+  ctx.stroke();
+
+  temp_X = v.i;
+  temp_Y = v.result_Y;
+
   }
 
 }
