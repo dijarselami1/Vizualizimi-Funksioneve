@@ -33,60 +33,63 @@ let steps= 0.003;
 
 let graphPoints=[];
 
-// X axis
-ctx.beginPath();
-ctx.lineWidth = 2;
-ctx.moveTo(0,clientHeight/2);
-ctx.lineTo(clientWidth,clientHeight/2 );
-ctx.stroke();
-// Y axis
-ctx.beginPath();
-ctx.lineWidth = 2;
-ctx.moveTo(clientWidth/2,0);
-ctx.lineTo(clientWidth/2,clientHeight );
-ctx.stroke();
+drawAxis();
 
-
-
-// points in x axis
-for(let i = 0; i <= clientWidth; i += axisStep_X ){
-
-  if( Math.round(i) == Math.round(clientWidth/2)){
-
-    continue;
-
-   }
-
-  ctx.fillRect(i-1,clientHeight/2 -4.5, 2,8 );
-
-
+function drawAxis() 
+{
+  // X axis
   ctx.beginPath();
-  ctx.lineWidth = 0.2;
-  ctx.moveTo( i , 0 );
-  ctx.lineTo( i , clientHeight );
+  ctx.lineWidth = 2;
+  ctx.moveTo(0,clientHeight/2);
+  ctx.lineTo(clientWidth,clientHeight/2 );
   ctx.stroke();
-}
 
-// points in y axis
-for(let i = 0 ; i <= clientHeight ; i+= axisStep_Y ){
+  // Y axis
+  ctx.beginPath();
+  ctx.lineWidth = 2;
+  ctx.moveTo(clientWidth/2,0);
+  ctx.lineTo(clientWidth/2,clientHeight );
+  ctx.stroke();
 
-  if( Math.round(i) == Math.round(clientHeight / 2) ){
-    
-    continue;
+  // points in x axis
+  for(let i = 0; i <= clientWidth; i += axisStep_X ){
 
+    if( Math.round(i) == Math.round(clientWidth/2)){
+
+      continue;
+
+    }
+
+    ctx.fillRect(i-1,clientHeight/2 -4.5, 2,8 );
+
+
+    ctx.beginPath();
+    ctx.lineWidth = 0.2;
+    ctx.moveTo( i , 0 );
+    ctx.lineTo( i , clientHeight );
+    ctx.stroke();
   }
 
-ctx.fillRect(clientWidth/2 -4 , i-1 , 8,2 );
+  // points in y axis
+  for(let i = 0 ; i <= clientHeight ; i+= axisStep_Y ){
+
+    if( Math.round(i) == Math.round(clientHeight / 2) ){
+      
+      continue;
+
+    }
+
+  ctx.fillRect(clientWidth/2 -4 , i-1 , 8,2 );
 
 
-  ctx.beginPath();
-  ctx.lineWidth = 0.2;
-  ctx.moveTo( 0 , i );
-  ctx.lineTo( clientWidth , i );
-  ctx.stroke();
+    ctx.beginPath();
+    ctx.lineWidth = 0.2;
+    ctx.moveTo( 0 , i );
+    ctx.lineTo( clientWidth , i );
+    ctx.stroke();
 
+  }
 }
-
 // let t1= Date.now();
 
 drawBtn.addEventListener('click', () => {
@@ -119,9 +122,10 @@ drawBtn.addEventListener('click', () => {
 
 })
 
-clearBtn.addEventListener('click'() => {
+clearBtn.addEventListener('click', () => {
 
-  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
 })
 
 function drawPoints()
