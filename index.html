@@ -12,14 +12,12 @@
   <canvas id="canvas"></canvas>
 
   <div id="app">
-    <h1>
-      hello world 
-    </h1>
-    <label for="equation" >Equation:</label>
-    <br>
-    <input type="text" name="equation" id="equation">
-    <button id="drawBtn">Draw</button>
-    <div id="output" class="hidden">test</div>
+    <div id="main-container">
+      <label for="equation" > Type an Equation: </label>
+      <input type="text" name="equation" id="equation">
+      <button id="drawBtn">Draw</button>
+      <button id="clearCanvas">Clear Canvas</button>
+    </div>
   </div>
 
   <script src="https://unpkg.com/mathjs@11.5.1/lib/browser/math.js"></script>
