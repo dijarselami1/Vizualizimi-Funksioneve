@@ -11,4 +11,9 @@
     border: 2px solid black;
 }
 
-/* TASK #3 */
+#app
+{
+    position: relative;
+    border: 2px solid black;
+    border-radius: 20px;
+}

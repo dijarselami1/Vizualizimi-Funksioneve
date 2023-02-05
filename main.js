@@ -85,11 +85,7 @@ drawBtn.addEventListener('click', () => {
   }
   
   for(let i = min_X ; i<= max_X; i+=steps)
-  {
-    if(equation.includes("log")){
-      i=0;
-    }
-    
+  {    
     
     let scope = {
       x: i, 
@@ -131,7 +127,6 @@ function drawPoints()
   ctx.strokeStyle = graphColors[3] ;
   ctx.stroke();
   
-  console.log(v.i + "  " + v.result_Y);
 
   temp_X = v.i;
   temp_Y = v.result_Y;
