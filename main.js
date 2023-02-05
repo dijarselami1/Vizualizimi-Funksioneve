@@ -15,10 +15,10 @@ canvas.height    = clientHeight;
 
 let graphColors  = ["#000000", "#8D0808", "#03641A", "#00225B", "#5C00B3", "#FF7575", "#1ED1BE",]
 
-let min_X=-10;
-let max_X=10;
-let min_Y=-8;
-let max_Y=8;
+let min_X=-15;
+let max_X=15;
+let min_Y=-5;
+let max_Y=5;
 
 let negativeClientAxis__X = -clientWidth/2;
 let positiveClientAxis__X =  clientWidth/2;
@@ -125,7 +125,8 @@ drawBtn.addEventListener('click', () => {
 clearBtn.addEventListener('click', () => {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+  
+  drawAxis();
 })
 
 function drawPoints()
@@ -144,12 +145,11 @@ function drawPoints()
 
   for (const v of graphPoints) {
 
-
   ctx.beginPath();
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 2;
   ctx.moveTo((temp_X)*axisStep_X + clientWidth/2 ,-(temp_Y) * axisStep_Y + clientHeight/2 );
   ctx.lineTo(v.i*axisStep_X + clientWidth/2 ,-v.result_Y * axisStep_Y + clientHeight/2 );
-  ctx.strokeStyle = graphColors[3] ;
+  ctx.strokeStyle = graphColors[0] ;
   ctx.stroke();
   
 
@@ -163,3 +163,5 @@ function drawPoints()
   // console.log("time it took: ", t2-t1);
 }
 
+// interesting Graphs
+// sin(pow(x,x))/pow(2,(pow(x,x)-pi/2)/2)
