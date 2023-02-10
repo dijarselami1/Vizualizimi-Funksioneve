@@ -4,14 +4,14 @@
 }
 body
 {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 #canvas
 {
     border: 2px solid black;
 }
 
-#main-container
+#sidebar
 {
     position: absolute;
     top: 0;
@@ -23,7 +23,13 @@ body
     height: 100%;
     backdrop-filter:blur(2px);
     box-shadow: 1px 1px 10px ;
+    overflow: scroll;
+}
 
+#main-container
+{
+    display: flex;
+    flex-direction: column;
 }
 
 #main-container > * 
@@ -32,9 +38,25 @@ body
     align-items: center;
     justify-content: center;
     margin: 0.5rem;
+
 }
 
 #main-container > label
 {
     font-size:1.5rem ;
+}
+
+#graphedFunctions
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+}
+
+#graphedFunctions > *
+{
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem;
 }

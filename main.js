@@ -1,8 +1,9 @@
-const equationInput = document.getElementById('equation')
-const drawBtn       = document.getElementById('drawBtn')
-const clearBtn      = document.getElementById('clearCanvas')
-const outputDiv     = document.getElementById('output')
-const canvas        = document.getElementById('canvas')
+const equationInput   = document.getElementById('equation')
+const drawBtn         = document.getElementById('drawBtn')
+const clearBtn        = document.getElementById('clearCanvas')
+const outputDiv       = document.getElementById('output')
+const canvas          = document.getElementById('canvas')
+const graphedFunctions= document.getElementById('graphedFunctions')
 
 const ctx = canvas.getContext('2d');
 const m = math.create(math.all)
@@ -118,13 +119,13 @@ function drawAxis()
     }
 
     drawPoints(t1);
-
+    addGraphedFunctions(graphedFunctions);
   })
 
 clearBtn.addEventListener('click', () => {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+  clearGrahpedFunctions(graphedFunctions);
   drawAxis();
 })
 
@@ -144,7 +145,7 @@ function drawPoints(t1)
 
   for (const v of graphPoints) {
 
-    if(v.result_Y > max_Y*10 || v.result_Y < min_Y*10){
+    if(v.result_Y > max_Y*10 || v.result_Y < min_Y*10 ){
       temp_X = v.i;
       temp_Y = v.result_Y;
       continue;
@@ -166,6 +167,20 @@ function drawPoints(t1)
   let t2=Date.now();
   console.log("time it took: ", t2-t1);
 }
+
+const addGraphedFunctions   = (graphedFunctions) =>{
+  graphedFunctions.innerHTML+= "<h3>" + equationInput.value + '</h3>' + '<button onclick="calculateProperties()"> Calculate </button>';
+}
+
+const clearGrahpedFunctions = (graphedFunctions) =>{
+  graphedFunctions.innerHTML = null;
+}
+
+function calculateProperties()
+{
+  console.log("works");
+}
+
 
 // interesting Graphs
 // sin(pow(x,x))/pow(2,(pow(x,x)-pi/2)/2)
