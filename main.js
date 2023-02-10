@@ -15,10 +15,10 @@ canvas.height    = clientHeight;
 
 let graphColors  = ["#000000", "#8D0808", "#03641A", "#00225B", "#5C00B3", "#FF7575", "#1ED1BE",]
 
-let min_X=-15;
-let max_X=15;
-let min_Y=-5;
-let max_Y=5;
+let min_X=-10;
+let max_X=10;
+let min_Y=-10;
+let max_Y=10;
 
 let negativeClientAxis__X = -clientWidth/2;
 let positiveClientAxis__X =  clientWidth/2;
@@ -52,7 +52,7 @@ function drawAxis()
   ctx.stroke();
 
   // points in x axis
-  for(let i = 0; i <= clientWidth; i += axisStep_X ){
+  for(let i= 0 ; i <= clientWidth ; i += axisStep_X ){
 
     if( Math.round(i) == Math.round(clientWidth/2)){
 
@@ -90,37 +90,36 @@ function drawAxis()
 
   }
 }
-// let t1= Date.now();
-
-drawBtn.addEventListener('click', () => {
-
-  let equation = equationInput.value 
 
 
+  drawBtn.addEventListener('click', () => {
+    let t1= Date.now();
 
-  if(!equation || !equation.includes("x")  ){
+    let equation = equationInput.value 
 
-    console.log("value is not valid");
+    if(!equation || !equation.includes("x")  ){
 
-    return;
-  }
-  
-  for(let i = min_X ; i<= max_X; i+=steps)
-  {    
+      console.log("value is not valid");
+
+      return;
+    }
     
-    let scope = {
-      x: i, 
+    for(let i = min_X ; i<= max_X; i+=steps)
+    {    
+      
+      let scope = {
+        x: i, 
+      }
+
+      let result_Y = m.evaluate(equation, scope);
+
+      graphPoints.push({i,result_Y});
+  
     }
 
-    let result_Y = m.evaluate(equation, scope);
+    drawPoints(t1);
 
-    graphPoints.push({i,result_Y});
-    
-  }
-
-  drawPoints();
-
-})
+  })
 
 clearBtn.addEventListener('click', () => {
 
@@ -129,7 +128,7 @@ clearBtn.addEventListener('click', () => {
   drawAxis();
 })
 
-function drawPoints()
+function drawPoints(t1)
 {
 
   let temp_X = min_X;
@@ -145,6 +144,11 @@ function drawPoints()
 
   for (const v of graphPoints) {
 
+    if(v.result_Y > max_Y*10 || v.result_Y < min_Y*10){
+      temp_X = v.i;
+      temp_Y = v.result_Y;
+      continue;
+    }
   ctx.beginPath();
   ctx.lineWidth = 2;
   ctx.moveTo((temp_X)*axisStep_X + clientWidth/2 ,-(temp_Y) * axisStep_Y + clientHeight/2 );
@@ -159,9 +163,10 @@ function drawPoints()
   
   }
   graphPoints.length=0;
-  // let t2=Date.now();
-  // console.log("time it took: ", t2-t1);
+  let t2=Date.now();
+  console.log("time it took: ", t2-t1);
 }
 
 // interesting Graphs
 // sin(pow(x,x))/pow(2,(pow(x,x)-pi/2)/2)
+
