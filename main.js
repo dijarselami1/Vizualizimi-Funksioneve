@@ -1,9 +1,10 @@
+
 const equationInput   = document.getElementById('equation')
 const drawBtn         = document.getElementById('drawBtn')
 const clearBtn        = document.getElementById('clearCanvas')
 const outputDiv       = document.getElementById('output')
 const canvas          = document.getElementById('canvas')
-const graphedFunctions= document.getElementById('graphedFunctions')
+const graphedFnDiv = document.getElementById('graphedFunctions')
 
 const ctx = canvas.getContext('2d');
 const m = math.create(math.all)
@@ -92,7 +93,6 @@ function drawAxis()
   }
 }
 
-
   drawBtn.addEventListener('click', () => {
     let t1= Date.now();
 
@@ -119,13 +119,13 @@ function drawAxis()
     }
 
     drawPoints(t1);
-    addGraphedFunctions(graphedFunctions);
+    Domain(equation)
   })
 
 clearBtn.addEventListener('click', () => {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  clearGrahpedFunctions(graphedFunctions);
+
   drawAxis();
 })
 
@@ -168,20 +168,46 @@ function drawPoints(t1)
   console.log("time it took: ", t2-t1);
 }
 
-const addGraphedFunctions   = (graphedFunctions) =>{
-  graphedFunctions.innerHTML+= "<h3>" + equationInput.value + '</h3>' + '<button onclick="calculateProperties()"> Calculate </button>';
-}
-
-const clearGrahpedFunctions = (graphedFunctions) =>{
-  graphedFunctions.innerHTML = null;
-}
-
-function calculateProperties()
+const Domain = (equation) =>
 {
-  console.log("works");
+  // equation = "";
+  let foundDomain = false;
+  let tempEquation = equation;
+  let pozicionX= 0;
+  let poizicionNumer;
+  let numberNeInt;
+  let invalidNums = [];
+
+        
+    while(foundDomain == false){
+      pozicionX = tempEquation.indexOf('x');
+      
+      if(pozicionX == -1)
+      {
+        foundDomain=true;
+        continue
+      }
+      poizicionNumer = tempEquation[pozicionX+2];
+      numberNeInt = parseInt(poizicionNumer);
+      let scope = {
+        x: numberNeInt,
+      } 
+      let sasia =parseInt( m.evaluate(equation,scope))
+      
+      if(m.evaluate(equation,scope) == Infinity)
+      {
+        console.log("Bruh" + numberNeInt);
+        invalidNums.push(numberNeInt)
+      }
+      
+      tempEquation = tempEquation.slice(pozicionX+1);
+    }
 }
 
 
+
+
+//  Add: Domen , Cift/Tek, Zerot, prerjet me boshtin Y, prerjet me X, monotonia, vlerat ekstreme, konkave;konvekse?
 // interesting Graphs
 // sin(pow(x,x))/pow(2,(pow(x,x)-pi/2)/2)
 
