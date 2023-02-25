@@ -4,7 +4,7 @@
 }
 body
 {
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 #canvas
 {
@@ -20,10 +20,10 @@ body
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    /* height: 100%; */
     backdrop-filter:blur(2px);
     box-shadow: 1px 1px 10px ;
-    overflow: scroll;
+    /* overflow: scroll; */
 }
 
 #main-container

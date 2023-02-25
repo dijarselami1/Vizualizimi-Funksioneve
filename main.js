@@ -17,10 +17,10 @@ canvas.height    = clientHeight;
 
 let graphColors  = ["#000000", "#8D0808", "#03641A", "#00225B", "#5C00B3", "#FF7575", "#1ED1BE",]
 
-let min_X=-10;
-let max_X=10;
-let min_Y=-10;
-let max_Y=10;
+let min_X=-6.283;
+let max_X=6.283;
+let min_Y=-3;
+let max_Y=3;
 
 let negativeClientAxis__X = -clientWidth/2;
 let positiveClientAxis__X =  clientWidth/2;
@@ -129,10 +129,9 @@ clearBtn.addEventListener('click', () => {
   drawAxis();
 })
 
-function drawPoints(t1)
+function drawPoints()
 {
-
-  let temp_X = min_X;
+  let prev_X = min_X;
 
   let scope = {
     x:min_X,
@@ -140,32 +139,30 @@ function drawPoints(t1)
 
   let equation  = equationInput.value;
 
-  let temp_Y    = m.evaluate(equation, scope) ;
+  let prev_Y    = m.evaluate(equation, scope) ;
 
 
   for (const v of graphPoints) {
 
     if(v.result_Y > max_Y*10 || v.result_Y < min_Y*10 ){
-      temp_X = v.i;
-      temp_Y = v.result_Y;
+      prev_X = v.i;
+      prev_Y = v.result_Y;
       continue;
     }
   ctx.beginPath();
   ctx.lineWidth = 2;
-  ctx.moveTo((temp_X)*axisStep_X + clientWidth/2 ,-(temp_Y) * axisStep_Y + clientHeight/2 );
+  ctx.moveTo((prev_X)*axisStep_X + clientWidth/2 ,-(prev_Y) * axisStep_Y + clientHeight/2 );
   ctx.lineTo(v.i*axisStep_X + clientWidth/2 ,-v.result_Y * axisStep_Y + clientHeight/2 );
   ctx.strokeStyle = graphColors[0] ;
   ctx.stroke();
   
 
-  temp_X = v.i;
-  temp_Y = v.result_Y;
+  prev_X = v.i;
+  prev_Y = v.result_Y;
 
   
   }
   graphPoints.length=0;
-  let t2=Date.now();
-  console.log("time it took: ", t2-t1);
 }
 
 const Domain = (equation) =>
