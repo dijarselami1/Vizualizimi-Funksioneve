@@ -17,10 +17,10 @@ canvas.height    = clientHeight;
 
 let graphColors  = ["#000000", "#8D0808", "#03641A", "#00225B", "#5C00B3", "#FF7575", "#1ED1BE",]
 
-let min_X=-6.283;
-let max_X=6.283;
-let min_Y=-3;
-let max_Y=3;
+let min_X=-10;
+let max_X=10;
+let min_Y=-5;
+let max_Y=5;
 
 let negativeClientAxis__X = -clientWidth/2;
 let positiveClientAxis__X =  clientWidth/2;
@@ -96,7 +96,10 @@ function drawAxis()
   drawBtn.addEventListener('click', () => {
     let t1= Date.now();
 
-    let equation = equationInput.value 
+    let vleraExtremeMax =-Infinity;
+    let vleraExtremeMin = Infinity;
+
+    let equation = equationInput.value; 
 
     if(!equation || !equation.includes("x")  ){
 
@@ -115,11 +118,20 @@ function drawAxis()
       let result_Y = m.evaluate(equation, scope);
 
       graphPoints.push({i,result_Y});
-  
+
+      if(result_Y<vleraExtremeMin)
+      {
+        vleraExtremeMin=result_Y;
+      }
+      else if(result_Y>vleraExtremeMax){
+        vleraExtremeMax=result_Y;
+      }
+      
     }
 
     drawPoints(t1);
-    Domain(equation)
+    CiftTek()
+    Zerot(equation)
   })
 
 clearBtn.addEventListener('click', () => {
@@ -167,44 +179,78 @@ function drawPoints()
 
 const Domain = (equation) =>
 {
-  // equation = "";
-  let foundDomain = false;
-  let tempEquation = equation;
-  let pozicionX= 0;
-  let poizicionNumer;
-  let numberNeInt;
-  let invalidNums = [];
 
-        
-    while(foundDomain == false){
-      pozicionX = tempEquation.indexOf('x');
-      
-      if(pozicionX == -1)
-      {
-        foundDomain=true;
-        continue
-      }
-      poizicionNumer = tempEquation[pozicionX+2];
-      numberNeInt = parseInt(poizicionNumer);
-      let scope = {
-        x: numberNeInt,
-      } 
-      let sasia =parseInt( m.evaluate(equation,scope))
-      
-      if(m.evaluate(equation,scope) == Infinity)
-      {
-        console.log("Bruh" + numberNeInt);
-        invalidNums.push(numberNeInt)
-      }
-      
-      tempEquation = tempEquation.slice(pozicionX+1);
+}
+
+function CiftTek()
+{
+  let equation = equationInput.value;
+  let isCift    = 0;
+  let isTek     = 0;
+  let isNeither = 0;
+  
+  for(let i = 1 ; i<=10 ; i++)
+  {
+    let scope = {
+      x: i, 
     }
+    let scope2=
+    {
+      x:-i,
+    }
+    
+    let result_Y = m.evaluate(equation, scope);
+    let result_Yminus = m.evaluate(equation, scope2)
+    // console.log("e para: "+ result_Y+ "  e dyta: "+result_Yminus)
+
+    if( result_Y == result_Yminus)
+    {
+      isCift++;
+
+    }else if( -result_Y == result_Yminus){
+
+      isTek++;
+
+    }else{
+
+      isNeither++;
+
+    }
+  }
+
+  console.log("cift:" +isCift+ " tek: "+ isTek+ " neither: " + isNeither)
+}
+
+function Zerot(equation)
+{
+  let zeroXArr=[];
+  let zeroY=[];
+  for(let i = min_X ; i<=max_X ; i+= 0.5)
+  {
+    let scope = {
+      x: i, 
+    }
+
+    let result_Y = m.evaluate(equation, scope);
+    if( result_Y == 0 )
+    {
+      zeroXArr.push(i)
+    }
+    
+    if(i==0 && result_Y)
+    {
+      zeroY.push(result_Y);
+    }
+  }
+  console.log(zeroXArr.forEach(elem => {
+    console.log(elem);
+  }));
+
+  return [zeroXArr, zeroY];
 }
 
 
-
-
-//  Add: Domen , Cift/Tek, Zerot, prerjet me boshtin Y, prerjet me X, monotonia, vlerat ekstreme, konkave;konvekse?
+//  Add: Domen , monotonia, konkave;konvekse?
 // interesting Graphs
-// sin(pow(x,x))/pow(2,(pow(x,x)-pi/2)/2)
+// sin(pow(x,x))/pow(2,(pow(x,x)-pi/2)/2)  tan(cos(1/pow(x,2))x)
 
