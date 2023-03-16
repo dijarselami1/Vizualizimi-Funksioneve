@@ -4,7 +4,7 @@
 }
 body
 {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 #canvas
 {
@@ -46,17 +46,3 @@ body
     font-size:1.5rem ;
 }
 
-#graphedFunctions
-{
-    display: flex;
-    flex-direction: column;
-    margin-top: 5%;
-}
-
-#graphedFunctions > *
-{
-    padding: 0.5rem;
-    align-items: center;
-    justify-content: center;
-    margin: 0.5rem;
-}

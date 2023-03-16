@@ -4,7 +4,8 @@ const drawBtn         = document.getElementById('drawBtn')
 const clearBtn        = document.getElementById('clearCanvas')
 const outputDiv       = document.getElementById('output')
 const canvas          = document.getElementById('canvas')
-const graphedFnDiv = document.getElementById('graphedFunctions')
+const graphedFnDiv    = document.getElementById('graphedFunctions')
+const showDiv         = document.getElementById('show')
 
 const ctx = canvas.getContext('2d');
 const m = math.create(math.all)
@@ -31,7 +32,7 @@ let axisStep_X = positiveClientAxis__X/max_X;
 let axisStep_Y = positiveClientAxis__Y/max_Y;
 
 
-let steps= 0.003;
+let steps= 0.001;
 
 let graphPoints=[];
 
@@ -40,6 +41,7 @@ drawAxis();
 function drawAxis() 
 {
   // X axis
+  graphColors[0];
   ctx.beginPath();
   ctx.lineWidth = 2;
   ctx.moveTo(0,clientHeight/2);
@@ -119,21 +121,31 @@ function drawAxis()
 
       graphPoints.push({i,result_Y});
 
-      if(result_Y<vleraExtremeMin)
+      if(result_Y<vleraExtremeMin )
       {
         vleraExtremeMin=result_Y;
+        
       }
-      else if(result_Y>vleraExtremeMax){
+      else if(result_Y>vleraExtremeMax && result_Y < max_X){
         vleraExtremeMax=result_Y;
       }
       
     }
-
+    if(vleraExtremeMax+1 > max_X )
+    {
+      vleraExtremeMax=null;
+    }
+    else if(vleraExtremeMin-1 <min_Y)
+    {
+      vleraExtremeMin=null;
+    }
     drawPoints(t1);
-    CiftTek()
-    Zerot(equation)
+    // CiftTek();
+
+    show(vleraExtremeMax,vleraExtremeMin);
   })
 
+  
 clearBtn.addEventListener('click', () => {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -177,11 +189,6 @@ function drawPoints()
   graphPoints.length=0;
 }
 
-const Domain = (equation) =>
-{
-
-}
-
 function CiftTek()
 {
   let equation = equationInput.value;
@@ -217,40 +224,71 @@ function CiftTek()
 
     }
   }
+  if(isCift> isTek && isCift > isNeither)
+  {
+    return "funksioni eshte cift";
+  }
+  else if(isTek> isCift && isTek > isNeither)
+  {
+    return "funksioni eshte tek"
+  }
+  else 
+    return ("funksioni seshte as cift as tek");
 
-  console.log("cift:" +isCift+ " tek: "+ isTek+ " neither: " + isNeither)
 }
 
-function Zerot(equation)
+function Zerot()
 {
+
+  let equation = equationInput.value;
   let zeroXArr=[];
   let zeroY=[];
-  for(let i = min_X ; i<=max_X ; i+= 0.5)
+  let temp=1313; 
+  let tempY=31321
+  for(let i = min_X ; i<= max_X ; i+= 0.001)
   {
     let scope = {
       x: i, 
     }
 
-    let result_Y = m.evaluate(equation, scope);
-    if( result_Y == 0 )
+    let result_Y =  m.evaluate(equation, scope);
+ 
+    if(Math.floor(result_Y* 100)/100 == 0 )
     {
-      zeroXArr.push(i)
+      if(temp == Math.floor(i*100)/100){
+        continue;
+      }
+      zeroXArr.push(Math.floor(i*100)/100)
+      temp=Math.floor(i*100)/100;    
     }
     
-    if(i==0 && result_Y)
+    if(Math.floor(i* 100)/100 ==0 )
     {
-      zeroY.push(result_Y);
+      if(tempY ==Math.floor(result_Y * 100)/100 )
+        {
+          continue
+        }
+      zeroY.push(Math.floor(result_Y * 100)/100);
+      tempY = Math.floor(result_Y * 100)/100;
     }
   }
-  console.log(zeroXArr.forEach(elem => {
-    console.log(elem);
-  }));
-
-  return [zeroXArr, zeroY];
+  return {zeroXArr,zeroY};
 }
 
-
-//  Add: Domen , monotonia, konkave;konvekse?
+function show(vleraExtremeMax, vleraExtremeMin)
+{
+  let zerotObj=[];
+  let zerotString
+  let zerotYString
+  zerotObj.push(Zerot()) 
+  for (const v of zerotObj) {
+    zerotString = v.zeroXArr + ", ";
+  }
+  for (const v of zerotObj) {
+    zerotYString = v.zeroY + "; ";
+  }
+  showDiv.innerHTML="YMax:"+ vleraExtremeMax + ", Ymin: " + vleraExtremeMin + "<br> Funksioni eshte: "+ CiftTek()+ "<br> Zerot e funksionit jane: " + zerotString + "\n kurse prerjet me boshtin y jane ne : "+ zerotYString; 
+}
 // interesting Graphs
 // sin(pow(x,x))/pow(2,(pow(x,x)-pi/2)/2)  tan(cos(1/pow(x,2))x)
 
